@@ -16,7 +16,7 @@ const finaleScreen = document.getElementById('finale-screen');
 
 enterBtn.addEventListener('click', () => {
     introScreen.classList.add('hidden');
-    bgMusic.play().catch(e => console.log("Audio play failed:", e));
+    bgMusic.play().catch(e => console.log(e));
 });
 
 const messages = [
@@ -74,6 +74,19 @@ const closeModal = () => {
             garden.classList.add('fade-out');
             setTimeout(() => {
                 finaleScreen.classList.remove('hidden');
+                
+                const finaleParticles = document.getElementById('finale-particles');
+                for(let i = 0; i < 50; i++) {
+                    let p = document.createElement('div');
+                    p.classList.add('finale-petal');
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.animationDelay = Math.random() * 6 + 's';
+                    p.style.animationDuration = 5 + Math.random() * 5 + 's';
+                    p.style.background = Math.random() > 0.5 ? 'var(--yellow-petal)' : 'var(--yellow-glow)';
+                    p.style.width = (10 + Math.random() * 12) + 'px';
+                    p.style.height = p.style.width;
+                    finaleParticles.appendChild(p);
+                }
             }, 1500);
         }, 800);
     }
