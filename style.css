@@ -16,11 +16,13 @@ body {
     color: var(--text-color);
     font-family: 'Segoe UI', system-ui, sans-serif;
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     position: relative;
+    touch-action: pan-y;
 }
 
 .firefly {
@@ -43,7 +45,7 @@ body {
 
 #intro-screen, #finale-screen {
     position: absolute;
-    top: 0; left: 0; width: 100vw; height: 100vh;
+    top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
     background: rgba(0, 3, 10, 0.85);
     backdrop-filter: blur(15px);
     display: flex;
@@ -64,16 +66,19 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    padding: 20px;
+    text-align: center;
 }
 
 .intro-card h2 {
     margin: 0;
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 6vw, 2rem);
     color: var(--yellow-glow);
 }
 
 .intro-card p {
     margin: 0 0 15px 0;
+    font-size: clamp(0.9rem, 4vw, 1rem);
     color: var(--text-color);
 }
 
@@ -85,7 +90,7 @@ body {
     border-radius: 30px;
     font-weight: bold;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -120,18 +125,19 @@ body {
     text-align: center;
     z-index: 10;
     position: relative;
+    padding: 0 20px;
     animation: cinematic-fade 3s ease forwards;
 }
 
 .finale-content h1 {
-    font-size: clamp(2rem, 6vw, 4rem);
+    font-size: clamp(1.8rem, 8vw, 4rem);
     color: var(--yellow-glow);
     text-shadow: 0 0 30px rgba(234, 255, 0, 0.5);
     margin-bottom: 10px;
 }
 
 .finale-content p {
-    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-size: clamp(1rem, 5vw, 1.8rem);
     color: var(--text-color);
 }
 
@@ -143,7 +149,7 @@ body {
 .garden {
     position: relative;
     width: 100vw;
-    height: 100vh;
+    height: 100vh; height: 100dvh;
     z-index: 10;
     transition: opacity 2s ease;
 }
@@ -193,7 +199,7 @@ body {
 
 .modal {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%; height: 100dvh;
     background: rgba(0, 3, 10, 0.75);
     backdrop-filter: blur(12px);
     display: flex;
@@ -214,7 +220,7 @@ body {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: 24px;
-    padding: clamp(25px, 5vw, 45px) clamp(20px, 4vw, 35px);
+    padding: clamp(20px, 5vw, 45px) clamp(15px, 4vw, 35px);
     max-width: 420px;
     width: 85%;
     text-align: center;
@@ -228,9 +234,9 @@ body {
 }
 
 .typewriter-text {
-    font-size: clamp(1.1rem, 4vw, 1.3rem);
+    font-size: clamp(1rem, 4vw, 1.3rem);
     line-height: 1.6;
-    min-height: 110px;
+    min-height: 90px;
     color: var(--text-color);
     font-weight: 300;
     margin-bottom: 25px;
@@ -241,12 +247,12 @@ body {
     background: rgba(0, 30, 80, 0.5);
     border: 1px solid rgba(100, 180, 255, 0.4);
     color: #b3d4ff;
-    padding: 12px 28px;
+    padding: 12px 20px;
     border-radius: 30px;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 10px;
-    font-size: clamp(0.9rem, 3vw, 1rem);
+    font-size: clamp(0.85rem, 3.5vw, 1rem);
     letter-spacing: 1px;
 }
 
@@ -258,6 +264,7 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+
 @media (min-width: 769px) {
     .flower:nth-child(1) { --f-left: 42%; --f-bottom: -5vh; --f-rot: -22deg; --f-width: 140px; --f-z: 1; animation-delay: 0s; }
     .flower:nth-child(2) { --f-left: 47%; --f-bottom: 0vh;  --f-rot: -10deg; --f-width: 160px; --f-z: 2; animation-delay: -1s; }
@@ -267,11 +274,13 @@ body {
     .flower:nth-child(6) { --f-left: 50%; --f-bottom: -10vh;--f-rot: 0deg;   --f-width: 170px; --f-z: 3; animation-delay: -5s; }
 }
 
+
 @media (max-width: 768px) {
-    .flower:nth-child(1) { --f-left: 35%; --f-bottom: 0vh;  --f-rot: -25deg; --f-width: 110px; --f-z: 1; animation-delay: 0s; }
-    .flower:nth-child(2) { --f-left: 42%; --f-bottom: 5vh;  --f-rot: -12deg; --f-width: 125px; --f-z: 2; animation-delay: -1s; }
-    .flower:nth-child(3) { --f-left: 65%; --f-bottom: 0vh;  --f-rot: 25deg;  --f-width: 110px; --f-z: 1; animation-delay: -2s; }
-    .flower:nth-child(4) { --f-left: 58%; --f-bottom: 5vh;  --f-rot: 12deg;  --f-width: 125px; --f-z: 2; animation-delay: -3s; }
-    .flower:nth-child(5) { --f-left: 50%; --f-bottom: 10vh; --f-rot: 0deg;   --f-width: 140px; --f-z: 0; animation-delay: -4s; }
-    .flower:nth-child(6) { --f-left: 50%; --f-bottom: -5vh; --f-rot: 0deg;   --f-width: 130px; --f-z: 3; animation-delay: -5s; }
+    
+    .flower:nth-child(1) { --f-left: 38%; --f-bottom: 2vh;  --f-rot: -26deg; --f-width: clamp(75px, 22vw, 110px); --f-z: 1; animation-delay: 0s; }
+    .flower:nth-child(2) { --f-left: 44%; --f-bottom: 8vh;  --f-rot: -12deg; --f-width: clamp(85px, 26vw, 125px); --f-z: 2; animation-delay: -1s; }
+    .flower:nth-child(3) { --f-left: 62%; --f-bottom: 2vh;  --f-rot: 26deg;  --f-width: clamp(75px, 22vw, 110px); --f-z: 1; animation-delay: -2s; }
+    .flower:nth-child(4) { --f-left: 56%; --f-bottom: 8vh;  --f-rot: 12deg;  --f-width: clamp(85px, 26vw, 125px); --f-z: 2; animation-delay: -3s; }
+    .flower:nth-child(5) { --f-left: 50%; --f-bottom: 14vh; --f-rot: 0deg;   --f-width: clamp(95px, 29vw, 140px); --f-z: 0; animation-delay: -4s; }
+    .flower:nth-child(6) { --f-left: 50%; --f-bottom: -2vh; --f-rot: 0deg;   --f-width: clamp(85px, 25vw, 130px); --f-z: 3; animation-delay: -5s; }
 }
