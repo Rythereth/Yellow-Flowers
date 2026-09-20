@@ -4,6 +4,8 @@
     --glass-bg: rgba(0, 20, 50, 0.4); 
     --glass-border: rgba(122, 184, 255, 0.3); 
     --text-color: #e6f0ff;
+    --yellow-petal: #ffcc00;
+    --yellow-glow: #eaff00;
 }
 
 body {
@@ -48,7 +50,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 2000;
-    transition: opacity 1s ease, visibility 1s ease;
+    transition: opacity 1.5s ease, visibility 1.5s ease;
 }
 
 #intro-screen.hidden, #finale-screen.hidden {
@@ -92,9 +94,33 @@ body {
     box-shadow: 0 0 20px rgba(122, 184, 255, 0.5);
 }
 
+#finale-particles {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.finale-petal {
+    position: absolute;
+    border-radius: 15px 0 15px 0;
+    box-shadow: 0 0 10px rgba(234, 255, 0, 0.5);
+    opacity: 0;
+    animation: fall-and-sway linear infinite;
+}
+
+@keyframes fall-and-sway {
+    0% { transform: translateY(-10vh) rotate(0deg) scale(0.5) translateX(0); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(110vh) rotate(360deg) scale(1.2) translateX(50px); opacity: 0; }
+}
+
 .finale-content {
     text-align: center;
-    animation: fade-up 2s ease forwards;
+    z-index: 10;
+    position: relative;
+    animation: cinematic-fade 3s ease forwards;
 }
 
 .finale-content h1 {
@@ -109,9 +135,9 @@ body {
     color: var(--text-color);
 }
 
-@keyframes fade-up {
-    0% { transform: translateY(30px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
+@keyframes cinematic-fade {
+    0% { transform: scale(0.8); opacity: 0; filter: blur(10px); }
+    100% { transform: scale(1); opacity: 1; filter: blur(0px); }
 }
 
 .garden {
@@ -130,31 +156,39 @@ body {
 .flower {
     position: absolute;
     cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-origin: 50% 100%;
+    transition: filter 0.5s ease, opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     filter: drop-shadow(0 0 15px rgba(234, 255, 0, 0.2));
-    animation: gentle-float 6s infinite alternate ease-in-out;
+    --f-scale: 1;
+    left: var(--f-left);
+    bottom: var(--f-bottom);
+    width: var(--f-width);
+    z-index: var(--f-z);
+    transform: translateX(-50%) rotate(var(--f-rot)) scale(var(--f-scale));
+    animation: sway 5s infinite alternate ease-in-out;
 }
 
 .flower:hover {
-    transform: scale(1.15) translateY(-8px) rotate(10deg);
-    filter: drop-shadow(0 0 25px rgba(234, 255, 0, 0.6));
+    animation-play-state: paused;
+    filter: drop-shadow(0 0 30px rgba(234, 255, 0, 0.8));
+    z-index: 20 !important;
+    transform: translateX(-50%) rotate(var(--f-rot)) scale(1.1) !important;
 }
 
 .flower.read {
-    transform: scale(0.85);
+    --f-scale: 0.85;
     filter: drop-shadow(0 0 5px rgba(234, 255, 0, 0.05));
     opacity: 0.6;
-    animation-duration: 10s;
 }
 
 .flower.read:hover {
-    transform: scale(0.9) translateY(-5px);
-    opacity: 0.8;
+    opacity: 0.9;
+    transform: translateX(-50%) rotate(var(--f-rot)) scale(0.95) !important;
 }
 
-@keyframes gentle-float {
-    0% { transform: translateY(0) rotate(-2deg); }
-    100% { transform: translateY(-12px) rotate(2deg); }
+@keyframes sway {
+    0% { transform: translateX(-50%) rotate(calc(var(--f-rot) - 3deg)) scale(var(--f-scale)); }
+    100% { transform: translateX(-50%) rotate(calc(var(--f-rot) + 3deg)) scale(var(--f-scale)); }
 }
 
 .modal {
@@ -225,19 +259,19 @@ body {
 }
 
 @media (min-width: 769px) {
-    .flower:nth-child(1) { top: 15%; left: 10%; width: 95px; animation-delay: 0s; }
-    .flower:nth-child(2) { top: 75%; left: 15%; width: 110px; animation-delay: 1.5s; }
-    .flower:nth-child(3) { top: 18%; right: 12%; width: 95px; animation-delay: 0.8s; }
-    .flower:nth-child(4) { bottom: 15%; right: 18%; width: 90px; animation-delay: 2.2s; }
-    .flower:nth-child(5) { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140px; animation-delay: 3s; z-index: 5;}
-    .flower:nth-child(6) { top: 10%; left: 45%; width: 100px; animation-delay: 1.2s; }
+    .flower:nth-child(1) { --f-left: 42%; --f-bottom: -5vh; --f-rot: -22deg; --f-width: 140px; --f-z: 1; animation-delay: 0s; }
+    .flower:nth-child(2) { --f-left: 47%; --f-bottom: 0vh;  --f-rot: -10deg; --f-width: 160px; --f-z: 2; animation-delay: -1s; }
+    .flower:nth-child(3) { --f-left: 58%; --f-bottom: -5vh; --f-rot: 22deg;  --f-width: 140px; --f-z: 1; animation-delay: -2s; }
+    .flower:nth-child(4) { --f-left: 53%; --f-bottom: 0vh;  --f-rot: 10deg;  --f-width: 160px; --f-z: 2; animation-delay: -3s; }
+    .flower:nth-child(5) { --f-left: 50%; --f-bottom: 5vh;  --f-rot: 0deg;   --f-width: 180px; --f-z: 0; animation-delay: -4s; }
+    .flower:nth-child(6) { --f-left: 50%; --f-bottom: -10vh;--f-rot: 0deg;   --f-width: 170px; --f-z: 3; animation-delay: -5s; }
 }
 
 @media (max-width: 768px) {
-    .flower:nth-child(1) { top: 15%; left: 8%; width: 75px; animation-delay: 0s; }
-    .flower:nth-child(2) { top: 80%; left: 12%; width: 85px; animation-delay: 1.5s; }
-    .flower:nth-child(3) { top: 22%; right: 8%; width: 70px; animation-delay: 0.8s; }
-    .flower:nth-child(4) { bottom: 12%; right: 12%; width: 80px; animation-delay: 2.2s; }
-    .flower:nth-child(5) { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 115px; animation-delay: 3s; z-index: 5;}
-    .flower:nth-child(6) { top: 8%; left: 50%; transform: translateX(-50%); width: 80px; animation-delay: 1.2s; }
+    .flower:nth-child(1) { --f-left: 35%; --f-bottom: 0vh;  --f-rot: -25deg; --f-width: 110px; --f-z: 1; animation-delay: 0s; }
+    .flower:nth-child(2) { --f-left: 42%; --f-bottom: 5vh;  --f-rot: -12deg; --f-width: 125px; --f-z: 2; animation-delay: -1s; }
+    .flower:nth-child(3) { --f-left: 65%; --f-bottom: 0vh;  --f-rot: 25deg;  --f-width: 110px; --f-z: 1; animation-delay: -2s; }
+    .flower:nth-child(4) { --f-left: 58%; --f-bottom: 5vh;  --f-rot: 12deg;  --f-width: 125px; --f-z: 2; animation-delay: -3s; }
+    .flower:nth-child(5) { --f-left: 50%; --f-bottom: 10vh; --f-rot: 0deg;   --f-width: 140px; --f-z: 0; animation-delay: -4s; }
+    .flower:nth-child(6) { --f-left: 50%; --f-bottom: -5vh; --f-rot: 0deg;   --f-width: 130px; --f-z: 3; animation-delay: -5s; }
 }
